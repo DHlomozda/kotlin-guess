@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.kotlin_guess.R
@@ -26,14 +27,17 @@ class ScoreFragment: Fragment() {
         )
 
         viewModelFactory = ScoreViewModelFactory(ScoreFragmentArgs.fromBundle(arguments!!).score)
-        
+
         binding.scoreText.text = viewModel.score.value.toString()
 
-        binding.playAgainButton.setOnClickListener { onPlayAgain() }
+        binding.playAgainButton.setOnClickListener { viewModel.onPlayAgain() }
+        viewModel.playAgain.observe(this, Observer { playAgain ->
+            if(playAgain) {
+                findNavController().navigate(ScoreFragmentDirections.actionRestart())
+                viewModel.onPlayAgainComplete()
+            }
+        })
         return binding.root
     }
-
-    private fun onPlayAgain() {
-        findNavController().navigate(ScoreFragmentDirections.actionRestart())
-    }
+    
 }
