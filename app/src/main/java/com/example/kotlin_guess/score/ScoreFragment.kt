@@ -27,6 +27,7 @@ class ScoreFragment: Fragment() {
         )
 
         viewModelFactory = ScoreViewModelFactory(ScoreFragmentArgs.fromBundle(arguments!!).score)
+        binding.scoreViewModel = viewModel
 
         binding.scoreText.text = viewModel.score.value.toString()
 
@@ -39,5 +40,5 @@ class ScoreFragment: Fragment() {
         })
         return binding.root
     }
-    
+
 }

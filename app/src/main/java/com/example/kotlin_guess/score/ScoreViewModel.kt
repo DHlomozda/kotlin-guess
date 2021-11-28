@@ -24,6 +24,6 @@ class ScoreViewModel(private val finalScore: Int): ViewModel() {
         _playAgain.value = true
     }
     fun onPlayAgainComplete() {
-        _playAgain.value = false
+        _playAgain.value   = false
     }
 }

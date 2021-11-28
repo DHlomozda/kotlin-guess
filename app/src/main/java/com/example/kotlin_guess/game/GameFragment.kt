@@ -32,16 +32,11 @@ class GameFragment: Fragment() {
             inflater, R.layout.game_fragment, container, false
         )
 
+        binding.gameViewModel = viewModel
         Log.i("GameFragment", "Called GameViewModel")
         //val viewModel : GameViewModel by viewModels()
 
 
-        binding.correctButton.setOnClickListener {
-            viewModel.onCorrect()
-        }
-        binding.skipButton.setOnClickListener {
-            viewModel.onSkip()
-        }
 
         viewModel.score.observe(this, Observer { newScore ->
             binding.scoreText.text = newScore.toString()
