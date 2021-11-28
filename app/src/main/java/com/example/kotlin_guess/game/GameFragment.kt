@@ -20,6 +20,7 @@ class GameFragment: Fragment() {
 
 
     private lateinit var binding: GameFragmentBinding
+    private val viewModel by viewModels<GameViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,7 +33,7 @@ class GameFragment: Fragment() {
         )
 
         Log.i("GameFragment", "Called GameViewModel")
-        val viewModel : GameViewModel by viewModels()
+        //val viewModel : GameViewModel by viewModels()
 
 
         binding.correctButton.setOnClickListener {
@@ -56,7 +57,7 @@ class GameFragment: Fragment() {
 
         viewModel.eventGameFinish.observe(this, Observer { hasFinish ->
             if(hasFinish){
-                gameFinished(viewModel)
+                gameFinished()
                 viewModel.gameFinishComplete()
             }
 
@@ -67,7 +68,7 @@ class GameFragment: Fragment() {
 
 
 
-    fun gameFinished(viewModel: GameViewModel) {
+    fun gameFinished() {
         val action = GameFragmentDirections.actionGameToScore(viewModel.score.value ?: 0)
         findNavController(this).navigate(action)
 

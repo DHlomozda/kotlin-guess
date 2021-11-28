@@ -6,12 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.example.kotlin_guess.R
 import com.example.kotlin_guess.databinding.ScoreFragmentBinding
 
 class ScoreFragment: Fragment() {
+    private lateinit var viewModelFactory: ScoreViewModelFactory
+    private val viewModel by viewModels<ScoreViewModel>{viewModelFactory}
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -22,9 +25,10 @@ class ScoreFragment: Fragment() {
             inflater, R.layout.score_fragment, container, false
         )
 
-        // Get args using by navArgs property delegate
-        val scoreFragmentArgs by navArgs<ScoreFragmentArgs>()
-        binding.scoreText.text = scoreFragmentArgs.score.toString()
+        viewModelFactory = ScoreViewModelFactory(ScoreFragmentArgs.fromBundle(arguments!!).score)
+        
+        binding.scoreText.text = viewModel.score.value.toString()
+
         binding.playAgainButton.setOnClickListener { onPlayAgain() }
         return binding.root
     }
