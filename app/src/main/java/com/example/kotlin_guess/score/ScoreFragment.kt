@@ -31,7 +31,7 @@ class ScoreFragment: Fragment() {
 
         binding.scoreText.text = viewModel.score.value.toString()
 
-        binding.playAgainButton.setOnClickListener { viewModel.onPlayAgain() }
+        //binding.playAgainButton.setOnClickListener { viewModel.onPlayAgain() }
         viewModel.playAgain.observe(this, Observer { playAgain ->
             if(playAgain) {
                 findNavController().navigate(ScoreFragmentDirections.actionRestart())
