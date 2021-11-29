@@ -28,10 +28,9 @@ class ScoreFragment: Fragment() {
 
         viewModelFactory = ScoreViewModelFactory(ScoreFragmentArgs.fromBundle(arguments!!).score)
         binding.scoreViewModel = viewModel
+        binding.setLifecycleOwner(this)
 
-        binding.scoreText.text = viewModel.score.value.toString()
 
-        //binding.playAgainButton.setOnClickListener { viewModel.onPlayAgain() }
         viewModel.playAgain.observe(this, Observer { playAgain ->
             if(playAgain) {
                 findNavController().navigate(ScoreFragmentDirections.actionRestart())

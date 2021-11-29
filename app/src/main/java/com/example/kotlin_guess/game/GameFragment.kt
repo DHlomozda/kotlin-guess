@@ -33,18 +33,11 @@ class GameFragment: Fragment() {
         )
 
         binding.gameViewModel = viewModel
+        binding.setLifecycleOwner(this)
         Log.i("GameFragment", "Called GameViewModel")
         //val viewModel : GameViewModel by viewModels()
 
 
-
-        viewModel.score.observe(this, Observer { newScore ->
-            binding.scoreText.text = newScore.toString()
-        })
-
-        viewModel.word.observe(this, Observer { newWord ->
-            binding.wordText.text = newWord.toString()
-        })
 
         viewModel.currentTime.observe(this, Observer { newTime ->
             binding.timerText.text = DateUtils.formatElapsedTime(newTime)
