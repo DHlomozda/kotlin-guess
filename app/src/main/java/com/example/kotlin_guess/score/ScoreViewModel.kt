@@ -18,7 +18,7 @@ class ScoreViewModel(private val finalScore: Int): ViewModel() {
     init {
         Log.i("ScoreViewModel", "final score: $finalScore")
         _score.value = finalScore
-        //_PlayAgain.value = false
+        _playAgain.value = false
     }
     fun onPlayAgain() {
         _playAgain.value = true
