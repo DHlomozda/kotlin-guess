@@ -8,8 +8,19 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 
+private val CORRECT_BUZZ_PATTERN = longArrayOf(100, 100, 100, 100, 100, 100)
+private val PANIC_BUZZ_PATTERN = longArrayOf(0, 200)
+private val GAME_OVER_BUZZ_PATTERN = longArrayOf(0, 2000)
+private val NO_BUZZ_PATTERN = longArrayOf(0)
+
 class GameViewModel(): ViewModel() {
 
+    enum class BuzzType(val pattern: LongArray) {
+        CORRECT(CORRECT_BUZZ_PATTERN),
+        GAME_OVER(GAME_OVER_BUZZ_PATTERN),
+        COUNTDOWN_PANIC(PANIC_BUZZ_PATTERN),
+        NO_BUZZ(NO_BUZZ_PATTERN)
+    }
     private val _word = MutableLiveData<String>()
     val word: LiveData<String>
         get() = _word
@@ -26,6 +37,10 @@ class GameViewModel(): ViewModel() {
     val currentTime: LiveData<Long>
         get() = _currentTime
 
+    private val _eventBuzz = MutableLiveData<BuzzType>()
+    val eventBuzz: LiveData<BuzzType>
+        get() = _eventBuzz
+
     val currentTimeString = Transformations.map(currentTime){ time ->
         DateUtils.formatElapsedTime(time)
     }
@@ -39,6 +54,7 @@ class GameViewModel(): ViewModel() {
         // This is the total time of the game
         const val COUNTDOWN_TIME = 10000L
     }
+
 
     private val timer: CountDownTimer
     // The list of words - the front of the list is the next word to guess
@@ -116,5 +132,9 @@ class GameViewModel(): ViewModel() {
 
     fun gameFinishComplete(){
         _eventGameFinish.value = false
+    }
+
+    fun onBuzzComplete() {
+        _eventBuzz.value = BuzzType.NO_BUZZ
     }
 }
